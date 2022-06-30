@@ -47,7 +47,7 @@ def output(request):
     df['SkinCancer'] = SkinCancer
 
     binary = {"No":0,"Yes":1}
-    Sex = {"Female":0,"Male":1}
+    sex = {"Female":0,"Male":1}
     GenHealth = {'Very good':0, 'Fair':1, 'Good':2, 'Poor':3, 'Excellent':4}
     race = {'White':0, 'Black':1, 'Asian':2, 'American Indian/Alaskan Native':3,
         'Other':4, 'Hispanic':5}
@@ -58,14 +58,14 @@ def output(request):
     col = ["Smoking","AlcoholDrinking","Stroke","DiffWalking","Diabetic","PhysicalActivity","Asthma","KidneyDisease","SkinCancer"]
     for i in col:
         df[i] = df[i].replace(binary)
-
-    df['Sex']=df['Sex'].replace(Sex)
+    print(df['Sex'])
+    df['Sex']=df['Sex'].replace(sex)
     df['GenHealth']=df['GenHealth'].replace(GenHealth)
     df['Race'] = df['Race'].replace(race)
     
     # context = {'df':df}
 
-    filename = r"E:\chrome downloads\finalized_model.sav"
+    filename = r"./models/finalized_model.sav"
     # pickle.dump(xgbcl, open(filename,'wb'))
 
     loaded_model = pickle.load(open(filename, 'rb'))
@@ -75,8 +75,11 @@ def output(request):
     if test == '0':
         out = "don't have Heart Disease"
     
-    else:
+    elif test==1:
         out = "have Heart Disease"
+    
+    else:
+        out = "Report have some issue will again calculate the report"
     
     context = {"Smoking":Smoking,"AlcoholDrinking":AlcoholDrinking,
     "Stroke":Stroke,"DiffWalking":DiffWalking,"Diabetic":Diabetic,"PhysicalActivity":PhysicalActivity,"BMI":BMI,
